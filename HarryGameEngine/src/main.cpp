@@ -3,6 +3,7 @@
 #include "imgui.h"
 #include "imgui_impl_sdl2.h"
 #include "imgui_impl_sdlrenderer2.h"
+#include "../math/point2D.h"
 
 bool isDragging = false;
 SDL_Rect rectangle = { 0, 0, 0, 0 };
@@ -35,7 +36,9 @@ void render(SDL_Renderer* renderer)
     // Clear the screen
     SDL_SetRenderDrawColor(renderer, 0, 128, 0, 255);
     SDL_RenderClear(renderer);
-        
+    
+    point2D pointA(5, 3);
+    point2D pointB(500, 500);
 
     if (isDragging)
     {
@@ -57,6 +60,9 @@ void render(SDL_Renderer* renderer)
         SDL_SetRenderDrawColor(renderer, 173, 216, 230, 129);
         SDL_RenderFillRect(renderer, &drawRect);
     }
+
+    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+    SDL_RenderDrawLine(renderer, pointA._x, pointA._y, pointB._x, pointB._y);
 
     // Start the Dear ImGui frame
     ImGui_ImplSDLRenderer2_NewFrame();
