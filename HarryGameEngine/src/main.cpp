@@ -4,6 +4,9 @@
 #include "imgui_impl_sdl2.h"
 #include "imgui_impl_sdlrenderer2.h"
 #include "../math/point2D.h"
+#include "../math/vector2D.h"
+
+#pragma warning(disable : 4996)
 
 bool isDragging = false;
 SDL_Rect rectangle = { 0, 0, 0, 0 };
@@ -34,11 +37,14 @@ void handleEvent(SDL_Event* e)
 void render(SDL_Renderer* renderer)
 {    
     // Clear the screen
-    SDL_SetRenderDrawColor(renderer, 0, 128, 0, 255);
+    SDL_SetRenderDrawColor(renderer, 120, 120, 120, 255);
     SDL_RenderClear(renderer);
     
     point2D pointA(5, 3);
     point2D pointB(500, 500);
+
+    vector2D vecA(pointA);
+    vector2D vecB(pointB);
 
     if (isDragging)
     {
@@ -61,19 +67,70 @@ void render(SDL_Renderer* renderer)
         SDL_RenderFillRect(renderer, &drawRect);
     }
 
-    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-    SDL_RenderDrawLine(renderer, pointA._x, pointA._y, pointB._x, pointB._y);
+    
+    pointA = pointB;
+    
+    vector2D vecC(point2D(700, 300));
+    vector2D vecD(point2D(100, 300));
+    vector2D vecE(point2D(500, 300));
+    
+    vector2D vecF = vecD + vecE;
 
+   /* printf("vecF: %d, %d", vecF.x, vecF.y);
+    i32 stop;
+    scanf("%d", &stop);*/
+
+  
     // Start the Dear ImGui frame
     ImGui_ImplSDLRenderer2_NewFrame();
     ImGui_ImplSDL2_NewFrame();
     ImGui::NewFrame();
 
-    // Display a window to customize and create new enemies
-    if (ImGui::Begin("Test window")) {
-        ImGui::Text("sample text");
+    // Display a ImGui Debug Window
+    ImGui::Begin("Debug Window");     
 
+    ImGui::Text("Enter New Value for Vector");
+    static i32 ix = 100;
+    ImGui::InputInt("input x", &ix);
+
+    static i32 iy = 100;
+    ImGui::InputInt("input y", &iy);
+     
+    static i32 clicked = 0;
+    if (ImGui::Button("Draw New vector2D"))
+        clicked++;
+    if(clicked & 1)
+    {   
+        vecF.x = ix;
+        vecF.y = iy;
+        ImGui::SameLine();
+        ImGui::Text("Thanks for clicking me!");
     }
+
+    //ImGui::Text("Enter New Value for pointB in Line");
+    //static i32 posX = 100;
+    //ImGui::InputInt("input x", &posX);
+    //static i32 posY = 100;
+    //ImGui::InputInt("input y", &posY);
+    //if (ImGui::Button("Draw New pointB")) {
+    //    pointB.x = posX;
+    //    pointB.y = posX;
+    //}
+
+
+
+    // draw line using point2D
+    SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
+    SDL_RenderDrawLine(renderer, pointA.x, pointA.y, pointB.x, pointB.y);
+
+    // draw point using vector2D
+    SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+    SDL_RenderDrawPoint(renderer, vecC.x, vecC.y);
+    SDL_RenderDrawPoint(renderer, vecD.x, vecD.y);
+    SDL_RenderDrawPoint(renderer, vecE.x, vecE.y);
+    SDL_RenderDrawPoint(renderer, vecF.x, vecF.y);
+
+    ImGui::Text("vecF: %d, %d", vecF.x, vecF.y);
 
     if (ImGui::TreeNode("Vertical Sliders"))
     {
@@ -155,7 +212,7 @@ int main(int argc, char* argv[])
 {
     SDL_Init(SDL_INIT_VIDEO);
 
-    SDL_Window* window = SDL_CreateWindow("Retangle to Select Units", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 600, SDL_WINDOW_SHOWN);
+    SDL_Window* window = SDL_CreateWindow("Retangle to Select Units", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1000, 800, SDL_WINDOW_SHOWN);
     if (window == nullptr)
     {
         printf("Error: SDL_CreateWindow(): %s\n", SDL_GetError());

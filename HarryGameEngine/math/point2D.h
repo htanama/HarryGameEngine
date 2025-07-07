@@ -4,17 +4,19 @@
 
 #pragma once
 
+#include "../core/datatype.h"
+
 struct point2D{
-	int _x;
-	int _y;
+	i32 x;
+	i32 y;
 
 	// Default Constructor
-	point2D() : _x(0), _y(0){
+	point2D() : x(0), y(0){
 		
 	}
 
-	point2D(const int& x, const int& y)
-	:_x(x), _y(y)
+	point2D(const i32& x, const i32& y)
+	:x(x), y(y)
 	{	
 	}
 
