@@ -18,7 +18,7 @@ The Makefile script already prepared and developer can run the make command from
 ```
 make
 ```
-The binary executable 'game-engine'  will located inside the ./build folder
+The binary executable 'game-engine' is located inside the ./build folder
 To run the game-engine application:
 ```
 ./build/game-engine
