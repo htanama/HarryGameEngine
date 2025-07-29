@@ -34,12 +34,17 @@ void handleEvent(SDL_Event* e)
     }
 }
 
-void render(SDL_Renderer* renderer)
-{    
-    // Clear the screen
+void clear_screen(SDL_Renderer* renderer){
+   // Clear the screen
     SDL_SetRenderDrawColor(renderer, 120, 120, 120, 255);
     SDL_RenderClear(renderer);
-    
+  
+}
+
+void render(SDL_Renderer* renderer)
+{    
+    clear_screen(renderer);   
+
     point2D pointA(5, 3);
     point2D pointB(500, 500);
 
@@ -95,7 +100,15 @@ void render(SDL_Renderer* renderer)
 
     static i32 iy = 100;
     ImGui::InputInt("input y", &iy);
-     
+
+
+   static i32 new_ix = 500;
+   ImGui::InputInt("input new_ix", &new_ix);
+
+   static i32 new_iy = 500;
+   ImGui::InputInt("input new_iy", &new_iy);
+
+
     static i32 clicked = 0;
     if (ImGui::Button("Draw New vector2D"))
         clicked++;
@@ -105,7 +118,13 @@ void render(SDL_Renderer* renderer)
         vecF.y = iy;
         ImGui::SameLine();
         ImGui::Text("Thanks for clicking me!");
-    }
+        // draw line using point2D
+        SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
+        SDL_RenderDrawLine(renderer, ix, iy, new_ix, new_iy);
+
+   }
+    
+  
 
     //ImGui::Text("Enter New Value for pointB in Line");
     //static i32 posX = 100;
@@ -118,10 +137,6 @@ void render(SDL_Renderer* renderer)
     //}
 
 
-
-    // draw line using point2D
-    SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
-    SDL_RenderDrawLine(renderer, pointA.x, pointA.y, pointB.x, pointB.y);
 
     // draw point using vector2D
     SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);

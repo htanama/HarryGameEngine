@@ -26,3 +26,7 @@ OBJ_NAME = ./build/game-engine
 #Ex: g++ LoadFromFile.cpp -IC:\mingw64\include\SDL2 -LC:\mingw64\lib -g -Wall -lmingw32 -lSDL2main -lSDL2 -lSDL2_image -o LoadFromFileMingw32.exe
 all : $(OBJS)
 	$(CC) $(OBJS) $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(COMPILER_FLAGS) $(LINKER_FLAGS) -o $(OBJ_NAME)
+run :
+	./build/game-engine
+clean :
+	rm ./build/game-engine
